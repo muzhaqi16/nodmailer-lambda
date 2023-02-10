@@ -18,5 +18,13 @@ resource "aws_lambda_function" "node_mailer" {
   source_code_hash = data.archive_file.lambda_node_mailer.output_base64sha256
 
   role = aws_iam_role.lambda_exec.arn
+  # set execution timeout to 10 seconds
+  timeout = 5
+
+  environment {
+    variables = {
+      env = "prod"
+    }
+  }
 }
 
