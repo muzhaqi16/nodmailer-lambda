@@ -6,7 +6,7 @@ resource "aws_iam_role" "lambda_exec" {
     Statement = [{
       Action = "sts:AssumeRole"
       Effect = "Allow"
-      Sid    = ""
+      # Sid    = ""
       Principal = {
         Service = "lambda.amazonaws.com"
       }
@@ -19,20 +19,36 @@ resource "aws_iam_role" "lambda_exec" {
   }
 }
 
+# Provides write permissions to CloudWatch Logs. AWS Managed Policy
 resource "aws_iam_role_policy_attachment" "lambda_policy" {
   role       = aws_iam_role.lambda_exec.name
   policy_arn = "arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
 }
 
 
-data "aws_iam_policy_document" "ses_send_mail" {
-  statement {
-    actions   = ["SES:SendEmail", "SES:SendRawEmail"]
-    resources = [aws_ses_domain_identity.ses_domain.arn]
+resource "aws_iam_policy" "nodemailer_ses_transport" {
+  name        = "nodemailer_ses_transport"
+  description = "Nodemailer SES Transport Policy"
 
-    principals {
-      identifiers = ["*"]
-      type        = "AWS"
-    }
-  }
+  policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [{
+      Action = [
+        "ses:SendRawEmail",
+        "ses:SendEmail",
+        "ses:SendTemplatedEmail",
+        "ses:SendBulkTemplatedEmail",
+        "ses:SendBulkEmail"
+      ]
+      Effect   = "Allow"
+      Resource = "*"
+      }
+    ]
+  })
+}
+
+resource "aws_iam_policy_attachment" "nodemailer_ses_transport" {
+  name       = "nodemailer_ses_transport"
+  roles      = [aws_iam_role.lambda_exec.name]
+  policy_arn = aws_iam_policy.nodemailer_ses_transport.arn
 }
