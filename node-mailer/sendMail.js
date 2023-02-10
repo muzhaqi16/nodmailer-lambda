@@ -5,6 +5,7 @@ const aws = require("@aws-sdk/client-ses");
 const { defaultProvider } = require("@aws-sdk/credential-provider-node");
 
 module.exports.handler = async (event) => {
+  console.log("event", event);
   const ses = new aws.SES({
     apiVersion: "2010-12-01",
     region: "us-east-1",

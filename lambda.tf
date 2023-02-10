@@ -26,5 +26,10 @@ resource "aws_lambda_function" "node_mailer" {
       env = "prod"
     }
   }
+
+  depends_on = [
+    aws_s3_object.lambda_node_mailer
+  ]
+
 }
 
