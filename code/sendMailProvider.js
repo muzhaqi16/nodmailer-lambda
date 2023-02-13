@@ -5,7 +5,6 @@ const aws = require("@aws-sdk/client-ses");
 const { defaultProvider } = require("@aws-sdk/credential-provider-node");
 
 module.exports.handler = async (event) => {
-  console.log("event", event);
   const ses = new aws.SES({
     apiVersion: "2010-12-01",
     region: "us-east-1",
@@ -18,28 +17,36 @@ module.exports.handler = async (event) => {
     sendingRate: 1, // max 1 messages/second
   });
 
+  transporter.verify(function (error, success) {
+    if (error) {
+      console.log(error);
+    } else {
+      console.log("Server is ready to take our messages");
+    }
+  });
   // Push next messages to Nodemailer
-  transporter.once("idle", () => {
+  transporter.once("idle", async () => {
     if (transporter.isIdle()) {
-      transporter.sendMail(
+      return transporter.sendMail(
         {
           from: "contact@pantrytrak.app",
           to: "artanmuzhaqi@gmail.com",
 
           subject: "Message ✓ " + Date.now(),
           text: "I hope this message gets sent! ✓",
-          ses: {
-            // optional extra arguments for SendRawEmail
-            Tags: [
-              {
-                Name: "tag_name",
-                Value: "tag_value",
-              },
-            ],
-          },
         },
-        (err, info) => {
-          console.log(err, info);
+        (error, info) => {
+          if (error) {
+            console.log("Error occurred");
+            console.log(error.message);
+            return process.exit(1);
+          }
+
+          console.log("Message sent successfully!");
+          console.log(nodemailer.getTestMessageUrl(info));
+
+          // only needed when using pooled connections
+          transporter.close();
         }
       );
     }

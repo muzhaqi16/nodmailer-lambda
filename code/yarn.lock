@@ -175,7 +175,7 @@
     "@aws-sdk/util-utf8" "3.254.0"
     tslib "^2.3.1"
 
-"@aws-sdk/client-sts@3.267.0":
+"@aws-sdk/client-sts@3.267.0", "@aws-sdk/client-sts@^3.267.0":
   version "3.267.0"
   resolved "https://registry.yarnpkg.com/@aws-sdk/client-sts/-/client-sts-3.267.0.tgz#84548b661bb40ec358b12db9753979707ff8ee9a"
   integrity sha512-bJ+SwJZAP3DuDUgToDV89HsB80IhSfB1rhzLG9csqs6h7uMLO8H1/fymElYKT4VMMAA+rpWJ3pznyGiCK7w28A==

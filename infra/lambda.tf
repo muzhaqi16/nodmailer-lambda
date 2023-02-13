@@ -19,11 +19,13 @@ resource "aws_lambda_function" "node_mailer" {
 
   role = aws_iam_role.lambda_exec.arn
   # set execution timeout to 10 seconds
-  timeout = 5
+  timeout = 10
 
   environment {
     variables = {
-      env = "prod"
+      env          = "prod",
+      FROM_ADDRESS = var.from_email,
+      TO_ADDRESS   = var.to_email,
     }
   }
 

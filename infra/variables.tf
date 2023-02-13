@@ -24,3 +24,15 @@ variable "bucket_name" {
 variable "acl_value" {
   default = "private"
 }
+
+variable "from_email" {
+  description = "Email address that emails are sent from"
+  type        = string
+}
+
+variable "to_email" {
+  description = "Email address that emails are sent to"
+  type        = string
+}
+
+
