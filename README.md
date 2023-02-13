@@ -1,8 +1,23 @@
-This will create the lambda function
+This code create the ifrastructure and deploys a lambda function to AWS that sends emails using nodemailer and SES.
 
-To deploy the infrastructure run. You need to setup the aws cli before deploying using `aws configure`
+Before starting please install:
+
+- [AWS cli](https://aws.amazon.com/cli/)
+- [Terraform](https://developer.hashicorp.com/terraform/tutorials/aws-get-started/install-cli)
+
+To deploy the infrastructure first you need to setup the aws cli before deploying using `aws configure`
+
+After than run
+
+`terraform plan`
+
+to see the resources that will be created and if you are satisfied then run:
 
 `terraform apply`
+
+To delete all the resources created run:
+
+`terraform destroy`
 
 After the infrastructure and the code is deployed you can invoke the function using the line below.
 
@@ -22,4 +37,9 @@ To get the terraform function name automatically run:
 
 For a full example you based on this forlder structure you can run
 
-`aws lambda invoke --region=us-east-1 --function-name=$(cd infra && terraform output -raw function_name) response.json --cli-binary-format raw-in-base64-out --payload file://payload.json`
+```
+aws lambda invoke
+--region=us-east-1
+--function-name=$(cd infra && terraform output -raw function_name) response.json --cli-binary-format raw-in-base64-out --payload file://payload.json
+
+```
