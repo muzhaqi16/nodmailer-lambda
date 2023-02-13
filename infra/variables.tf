@@ -1,6 +1,7 @@
 variable "aws_region" {
   description = "AWS region for all resources."
   type        = string
+  default     = "us-east-1"
 }
 
 variable "domain" {
@@ -8,10 +9,6 @@ variable "domain" {
   type        = string
 }
 
-variable "hosted_zone_domain" {
-  description = "Route 53 Hosted Zone domain"
-  type        = string
-}
 variable "hosted_zone_id" {
   description = "Route 53 Hosted Zone ID"
   type        = string
@@ -40,5 +37,5 @@ variable "function_name" {
 variable "env" {
   description = "Environment for all resources."
   type        = string
-  default     = "prod"
+  default     = "dev"
 }
