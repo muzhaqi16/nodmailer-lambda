@@ -26,13 +26,19 @@ variable "acl_value" {
 }
 
 variable "from_email" {
-  description = "Email address that emails are sent from"
+  description = "Email address that emails are sent from based on your verified SES domain"
   type        = string
+  default     = "contact"
 }
 
-variable "to_email" {
-  description = "Email address that emails are sent to"
+variable "function_name" {
+  description = "Name of the Lambda function"
   type        = string
+  default     = "NodeMailer"
 }
 
-
+variable "env" {
+  description = "Environment for all resources."
+  type        = string
+  default     = "prod"
+}
